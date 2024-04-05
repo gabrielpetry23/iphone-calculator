@@ -10,7 +10,7 @@ const comma = document.querySelector('.comma');
 let firstValue = "";
 let hasFirstValue = false;
 let secondValue = "";
-let isSecondValue = false;
+let hasSecondValue = false;
 let sign = "";
 let resultValue = 0;
 
@@ -20,7 +20,7 @@ for (let i = 0 ; i < numbers.length ; i++) {
         if (hasFirstValue === false) {
             getFirstValue(num);
         } 
-        else if (isSecondValue == false) {
+        else if (hasSecondValue == false) {
             getSecondValue(num);
         }
     })
@@ -52,6 +52,10 @@ function getSign () {
 getSign();
 
 equals.addEventListener('click', () => {
+    if (firstValue !== "") {
+        resultValue = firstValue;
+    }
+
     result.innerHTML = "";
     if (sign === "+") {
         resultValue = firstValue + secondValue;
@@ -61,7 +65,7 @@ equals.addEventListener('click', () => {
         resultValue = firstValue / secondValue;
     } else if (sign === "x") {
         resultValue = firstValue * secondValue;
-    }
+    } 
     result.innerHTML = resultValue;
     firstValue = resultValue;
     secondValue = "";
@@ -110,7 +114,7 @@ clear.addEventListener('click', (e) => {
     firstValue = "";
     hasFirstValue = false;
     secondValue = "";
-    isSecondValue = false;
+    hasSecondValue = false;
     sign = "";
     resultValue = 0;
 })

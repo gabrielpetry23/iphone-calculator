@@ -53,12 +53,6 @@ body, html {
     align-items: center;
     width: 330px;
     padding: 5px 10px 0px 2px;
-    transition: filter 1s;
-}
-
-.buttons:active,
-.buttons:focus {
-    filter: brightness(120%);
 }
 
 .button-light-gray, .button-orange, .button-dark-gray {
@@ -77,6 +71,13 @@ body, html {
     cursor: pointer;
     border: 2px solid black;
     font-family: "Avenir Next Condensed Medium", Calibri, "Gill Sans", sans-serif;
+    transition: filter 0.3s ease;
+}
+
+.buttons .button-light-gray:hover,
+.buttons .button-orange:hover,
+.buttons .button-dark-gray:hover {
+    filter: brightness(120%);
 }
 
 .button-orange {
