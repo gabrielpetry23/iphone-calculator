@@ -6,7 +6,7 @@ body, html {
 
 .phone-img {
     position: relative;
-    width: 350px; /* Largura do telefone */
+    width: 350px; 
     height: 700px;
 }
 
@@ -14,13 +14,6 @@ body, html {
     position: absolute;
     width: 100%;
     height: 100%;
-    /*
-    Screen
-    width: 350px;
-    height: 700px;
-    background-color: black;
-    border-radius: 30px;
-    */
 }
 
 .screen {
@@ -28,8 +21,8 @@ body, html {
     top: 48%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 320px; /* Largura da tela */
-    height: 655px; /* Altura da tela */
+    width: 320px; 
+    height: 655px; 
     background-color: rgb(0, 0, 0);
     border-radius: 30px;
     z-index: 1;

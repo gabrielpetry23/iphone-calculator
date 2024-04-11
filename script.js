@@ -1,6 +1,6 @@
 const numbers = document.querySelectorAll('.number');
 const result = document.querySelector('.display span');
-const signs = document.querySelectorAll('.sign');
+const operations = document.querySelectorAll('.operation');
 const equals = document.querySelector('.equals');
 const clear = document.querySelector('.clear');
 const negative = document.querySelector('.negative');
@@ -10,8 +10,7 @@ const comma = document.querySelector('.comma');
 let firstValue = "";
 let hasFirstValue = false;
 let secondValue = "";
-let hasSecondValue = false;
-let sign = "";
+let operation = "";
 let resultValue = 0;
 
 for (let i = 0 ; i < numbers.length ; i++) {
@@ -20,36 +19,40 @@ for (let i = 0 ; i < numbers.length ; i++) {
         if (hasFirstValue === false) {
             getFirstValue(num);
         } 
-        else if (hasSecondValue == false) {
+        else {
             getSecondValue(num);
         }
     })
 }
 
 function getFirstValue (num) {
+    let firstValueFloat = parseFloat(firstValue + num);
+
+    if (isFinite(firstValueFloat)) {
     result.innerHTML = "";
     firstValue += num;
     result.innerHTML = firstValue;
     firstValue = +firstValue;
+    }
 }
 
 function getSecondValue (num) {
-    if (firstValue != "" && sign != "") {
+    if (firstValue != "" && operation != "") {
         secondValue += num;
         result.innerHTML = secondValue;
         secondValue = +secondValue;
     }
 }
 
-function getSign () {
-    for (let i = 0 ; i < signs.length ; i++) {
-        signs[i].addEventListener('click', (e) => {
-            sign = e.target.getAttribute('value');
+function getOperation () {
+    for (let i = 0 ; i < operations.length ; i++) {
+        operations[i].addEventListener('click', (e) => {
+            operation = e.target.getAttribute('value');
             hasFirstValue = true;
         })
     }
 }
-getSign();
+getOperation();
 
 equals.addEventListener('click', () => {
     if (firstValue !== "") {
@@ -57,13 +60,13 @@ equals.addEventListener('click', () => {
     }
 
     result.innerHTML = "";
-    if (sign === "+") {
+    if (operation === "+") {
         resultValue = firstValue + secondValue;
-    } else if (sign === "-") {
+    } else if (operation === "-") {
         resultValue = firstValue - secondValue;
-    } else if (sign === "/") {
+    } else if (operation === "/") {
         resultValue = firstValue / secondValue;
-    } else if (sign === "x") {
+    } else if (operation === "x") {
         resultValue = firstValue * secondValue;
     } 
     result.innerHTML = resultValue;
@@ -73,22 +76,13 @@ equals.addEventListener('click', () => {
     checkResultLength();
 })
 
-function checkResultLength () {
-    resultValue = JSON.stringify(resultValue);
-
-    if (resultValue.length >= 8) {
-        resultValue = JSON.parse(resultValue);
-        result.innerHTML = resultValue.toFixed(5);
-    }
-}
-
 negative.addEventListener('click', (e) => {
     result.innerHTML = "";
     if (firstValue != "") {
         resultValue = -firstValue;
         firstValue = resultValue;
     }
-    if (firstValue != "" && secondValue != "" && sign != "") {
+    if (firstValue != "" && secondValue != "" && operation != "") {
         resultValue = -resultValue;
     }
     result.innerHTML = resultValue;
@@ -103,7 +97,7 @@ percent.addEventListener('click', (e) => {
         result.innerHTML = resultValue;
 
     }
-    if (firstValue != "" && secondValue != "" && sign != "") {
+    if (firstValue != "" && secondValue != "" && operation != "") {
         resultValue = resultValue / 100;
     }
 })
@@ -114,9 +108,9 @@ clear.addEventListener('click', (e) => {
     firstValue = "";
     hasFirstValue = false;
     secondValue = "";
-    hasSecondValue = false;
-    sign = "";
+    operation = "";
     resultValue = 0;
+    result.style.fontSize = '80px';
 })
 
 comma.addEventListener('click', (e) => {
@@ -129,4 +123,48 @@ comma.addEventListener('click', (e) => {
         result.innerHTML = secondValue;
     }
 })
+
+function checkResultLength() {
+    let formattedResult = '';
+    let resultString = resultValue.toString();
+    let integerPart = '';
+    let decimalPart = '';
+
+    let isNegative = resultValue < 0;
+    if (isNegative) {
+        resultString = resultString.slice(1); 
+    }
+
+    if (resultString.includes('.')) {
+        [integerPart, decimalPart] = resultString.split('.');
+    } else {
+        integerPart = resultString;
+    }
+
+    if (integerPart.length > 8) {
+        formattedResult = resultValue.toExponential(5);
+    } else {
+        formattedResult = integerPart;
+    }
+
+    if (decimalPart) {
+        formattedResult += '.' + decimalPart;
+    }
+
+    if (isNegative) {
+        formattedResult = '-' + formattedResult;
+    }
+
+    result.innerHTML = formattedResult;
+
+    if (formattedResult.length > 6) {
+        result.style.fontSize = '60px';
+    } else {
+        result.style.fontSize = '80px'; 
+    }
+}
+
+function openAppScreen () {
+    window.location.href = "app-screen.html";
+}
 
